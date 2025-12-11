@@ -65,12 +65,13 @@
                     </div>
 
                     <div class="tool-actions">
-                        <button class="action-btn" id="bookmarkBtn" data-product-id="{{ $product->id }}" title="Bookmark">
+                        <button type="button" class="action-btn" id="bookmarkBtn" data-product-id="{{ $product->id }}" title="Bookmark">
                             <svg class="icon-bookmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
                             </svg>
+                            <span id="bookmarkCount">{{ $product->bookmarks()->count() }}</span>
                         </button>
-                        <button class="action-btn" id="likeBtn" data-product-id="{{ $product->id }}" title="Like">
+                        <button type="button" class="action-btn" id="likeBtn" data-product-id="{{ $product->id }}" title="Like">
                             <svg class="icon-like" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                             </svg>
@@ -137,100 +138,89 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    @auth
-        const likeBtn = document.getElementById('likeBtn');
-        const bookmarkBtn = document.getElementById('bookmarkBtn');
-        const productId = likeBtn.dataset.productId;
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+@auth
+const likeBtn = document.getElementById('likeBtn');
+const bookmarkBtn = document.getElementById('bookmarkBtn');
+const productId = likeBtn ? likeBtn.dataset.productId : null;
+const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+const csrfToken = csrfMeta ? csrfMeta.getAttribute('content') : null;
 
-        // Check if product is already liked
-        @php
-            $isLiked = optional(auth()->user()) && $product->isLikedBy(auth()->user());
-            $isBookmarked = optional(auth()->user()) && $product->isBookmarkedBy(auth()->user());
-        @endphp
+console.log('Product ID:', productId, 'CSRF:', !!csrfToken);
 
-        if (@json($isLiked)) {
-            likeBtn.classList.add('liked');
-        }
-
-        if (@json($isBookmarked)) {
-            bookmarkBtn.classList.add('bookmarked');
-        }
-
-        // Handle like button
-        likeBtn.addEventListener('click', function (e) {
-            e.preventDefault();
-
-            fetch(`/product/${productId}/toggle-like`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken,
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({})
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.isLiked) {
-                    likeBtn.classList.add('liked');
-                } else {
-                    likeBtn.classList.remove('liked');
-                }
-                document.getElementById('likeCount').textContent = data.likeCount;
-            })
-            .catch(error => {
-                console.error('Like error:', error);
-                alert('Failed to toggle like. Please try again.');
-            });
+if (likeBtn && productId && csrfToken) {
+    likeBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const url = `/product/${productId}/toggle-like`;
+        console.log('Sending POST to:', url);
+        
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(r => {
+            console.log('Response status:', r.status);
+            return r.json();
+        })
+        .then(data => {
+            console.log('Response data:', data);
+            document.getElementById('likeCount').textContent = data.likeCount;
+            likeBtn.classList.toggle('liked');
+        })
+        .catch(e => {
+            console.error('Error:', e);
+            alert('Error: ' + e.message);
         });
+    });
+}
 
-        // Handle bookmark button
-        bookmarkBtn.addEventListener('click', function (e) {
-            e.preventDefault();
+if (bookmarkBtn && productId && csrfToken) {
+    bookmarkBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const url = `/product/${productId}/toggle-bookmark`;
+        console.log('Sending POST to:', url);
+        
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(r => {
+            console.log('Response status:', r.status);
+            return r.json();
+        })
+        .then(data => {
+            console.log('Response data:', data);
+            document.getElementById('bookmarkCount').textContent = data.bookmarkCount;
+            bookmarkBtn.classList.toggle('bookmarked');
+        })
+        .catch(e => {
+            console.error('Error:', e);
+            alert('Error: ' + e.message);
+        });
+    });
+}
+@else
+const likeBtn = document.getElementById('likeBtn');
+const bookmarkBtn = document.getElementById('bookmarkBtn');
 
-            fetch(`/product/${productId}/toggle-bookmark`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken,
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({})
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.isBookmarked) {
-                    bookmarkBtn.classList.add('bookmarked');
-                } else {
-                    bookmarkBtn.classList.remove('bookmarked');
-                }
-            })
-            .catch(error => {
-                console.error('Bookmark error:', error);
-                alert('Failed to toggle bookmark. Please try again.');
-            });
-        });
-    @else
-        // If not authenticated, redirect to login on click
-        document.getElementById('likeBtn').addEventListener('click', function () {
-            window.location.href = '/login';
-        });
-        document.getElementById('bookmarkBtn').addEventListener('click', function () {
-            window.location.href = '/login';
-        });
-    @endauth
-});
+if (likeBtn) {
+    likeBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.location.href = '/login';
+    });
+}
+
+if (bookmarkBtn) {
+    bookmarkBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.location.href = '/login';
+    });
+}
+@endauth
 </script>
 @endsection

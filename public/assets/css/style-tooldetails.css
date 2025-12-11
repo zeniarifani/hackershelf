@@ -24,7 +24,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 60px 20px 40px;
+    padding: 120px 20px 40px;
     position: relative;
     z-index: 1;
 }
@@ -404,5 +404,14 @@ details summary::after {
     .gradient-btn i {
         font-size: 14px;
     }
-    z-index: 1; /* stay above the background overlay */
+}
+
+/* Count styling for likes and bookmarks */
+#likeCount,
+#bookmarkCount {
+    font-size: 14px;
+    font-weight: 600;
+    display: inline-block;
+    min-width: 20px;
+    text-align: center;
 }

@@ -204,7 +204,7 @@
                             <div class="profile-card">
                                 <div class="profile-pic-container">
                                     @if($user->photo)
-                                        <img src="{{ asset('storage/' . $user->photo) }}" alt="Profile Picture" class="profile-pic">
+                                        <img src="{{ asset('storage/' . $user->photo) }}?t={{ time() }}" alt="Profile Picture" class="profile-pic" onerror="this.style.display='none'">
                                     @endif
                                 </div>
                                 <div class="profile-name">{{ $user->name }}</div>
@@ -332,7 +332,7 @@
                 @if($user->photo)
                     <div style="margin-top: 10px;">
                         <small style="color: #FFE4C7;">Current photo:</small>
-                        <img src="{{ asset('storage/' . $user->photo) }}" alt="Current" class="preview-image">
+                        <img src="{{ asset('storage/' . $user->photo) }}?t={{ time() }}" alt="Current" class="preview-image" onerror="this.style.display='none'">
                     </div>
                 @endif
                 <img id="photoPreview" class="preview-image" style="display: none;">

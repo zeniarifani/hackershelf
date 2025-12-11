@@ -218,8 +218,11 @@ class ProductController extends Controller
             $isBookmarked = true;
         }
 
+        $bookmarkCount = $product->bookmarks()->count();
+
         return response()->json([
-            'isBookmarked' => $isBookmarked
+            'isBookmarked' => $isBookmarked,
+            'bookmarkCount' => $bookmarkCount
         ]);
     }
 }
