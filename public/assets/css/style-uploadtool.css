@@ -1,0 +1,354 @@
+@import url('https://cdn.vercel.app/geist/1.0.0/geist.css');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Geist', sans-serif;
+}
+
+/* Scope semua ke .uploadtool-page */
+.uploadtool-page {
+  background: linear-gradient(
+    180deg,
+    #AA661C 0%,
+    #8A4E18 2%,
+    #6A3A14 5%,
+    #4A2810 10%,
+    #2A1608 20%,
+    #1A0F03 40%,
+    #000000 100%
+  );
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 100px 20px 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.uploadtool-page .page-header {
+  margin-bottom: 40px;
+  text-align: center;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.uploadtool-page .page-title {
+  font-size: 56px;
+  font-weight: 400;
+  background: linear-gradient(180deg, #716C66, #FFE4C7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}
+
+.uploadtool-page .page-subtitle {
+  font-size: 18px;
+  color: #ccc;
+  margin-bottom: 20px;
+}
+
+.uploadtool-page .upload-container {
+  max-width: 1000px;
+  width: 100%;
+  position: relative;
+}
+
+.uploadtool-page .upload-card {
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 20px;
+  padding: 50px;
+  position: relative;
+  border: 1px solid rgba(253, 193, 127, 0.2);
+  box-shadow:
+    0 0 120px rgba(253, 193, 127, 0.25),
+    0 0 200px rgba(253, 193, 127, 0.15),
+    0 0 250px rgba(253, 193, 127, 0.08),
+    inset 0 0 30px rgba(253, 193, 127, 0.05);
+}
+
+.uploadtool-page .upload-card::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+  background: linear-gradient(45deg, #FDC17F, #FFFFFF, #FDC17F);
+  border-radius: 40px;
+  z-index: -1;
+  opacity: 0.25;
+  animation: glow 3s ease-in-out infinite alternate;
+  filter: blur(15px);
+}
+
+@keyframes glow {
+  0% {
+    opacity: 0.2;
+    box-shadow: 0 0 40px rgba(253, 193, 127, 0.3);
+  }
+  100% {
+    opacity: 0.35;
+    box-shadow: 0 0 60px rgba(253, 193, 127, 0.5);
+  }
+}
+
+.uploadtool-page .upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.uploadtool-page .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.uploadtool-page .form-row {
+  display: flex;
+  gap: 30px;
+}
+
+.uploadtool-page .form-row .form-group {
+  flex: 1;
+}
+
+.uploadtool-page .form-label {
+  font-size: 18px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+}
+
+.uploadtool-page .form-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 14px 18px;
+  color: #FFFFFF;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  width: 100%;
+  font-family: 'Geist', sans-serif;
+}
+
+.uploadtool-page .form-input:focus {
+  outline: none;
+  border-color: #FDC17F;
+  box-shadow: 0 0 15px rgba(253, 193, 127, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.uploadtool-page .form-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.uploadtool-page textarea.form-input {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.uploadtool-page .file-upload-container {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.uploadtool-page .file-input {
+  flex: 1;
+}
+
+.uploadtool-page .file-upload-btn {
+  background-color: #424242;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 22px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.uploadtool-page .file-upload-btn:hover {
+  background-color: #505050;
+  transform: translateY(-2px);
+}
+
+.uploadtool-page .file-upload-btn i {
+  font-size: 16px;
+}
+
+.uploadtool-page .submit-btn-container {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+}
+
+.uploadtool-page .submit-btn {
+  background: linear-gradient(45deg, rgba(253, 193, 127, 0.7), rgba(255, 255, 255, 0.7), rgba(253, 193, 127, 0.7));
+  background-size: 200% 100%;
+  color: #000000;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 45px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 5px 25px rgba(253, 193, 127, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.uploadtool-page .submit-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 35px rgba(253, 193, 127, 0.4);
+  background-position: 100% 0;
+}
+
+.uploadtool-page .submit-btn:active {
+  transform: translateY(-1px);
+}
+
+.uploadtool-page .submit-btn::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: linear-gradient(45deg, #FDC17F, #FFFFFF, #FDC17F);
+  border-radius: 25px;
+  z-index: -1;
+  opacity: 0.15;
+  animation: glow 3s ease-in-out infinite alternate;
+  filter: blur(10px);
+}
+
+.uploadtool-page .file-preview {
+  margin-top: 10px;
+  padding: 12px 15px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  font-size: 14px;
+  color: #DBA890;
+}
+
+@media (max-width: 768px) {
+  .uploadtool-page {
+    padding: 90px 15px 30px;
+  }
+
+  .uploadtool-page .page-title {
+    font-size: 36px;
+  }
+
+  .uploadtool-page .page-subtitle {
+    font-size: 16px;
+  }
+
+  .uploadtool-page .upload-card {
+    padding: 35px;
+  }
+
+  .uploadtool-page .form-row {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .uploadtool-page .form-label {
+    font-size: 16px;
+  }
+
+  .uploadtool-page .form-input {
+    padding: 12px 15px;
+    font-size: 14px;
+  }
+
+  .uploadtool-page .file-upload-btn {
+    padding: 12px 18px;
+    font-size: 13px;
+  }
+
+  .uploadtool-page .submit-btn {
+    padding: 14px 35px;
+    font-size: 16px;
+  }
+
+  .uploadtool-page .upload-card::before {
+    top: -15px;
+    left: -15px;
+    right: -15px;
+    bottom: -15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .uploadtool-page {
+    padding: 80px 10px 20px;
+  }
+
+  .uploadtool-page .page-title {
+    font-size: 28px;
+  }
+
+  .uploadtool-page .page-subtitle {
+    font-size: 14px;
+  }
+
+  .uploadtool-page .upload-card {
+    padding: 25px 20px;
+    border-radius: 15px;
+  }
+
+  .uploadtool-page .upload-form {
+    gap: 22px;
+  }
+
+  .uploadtool-page .form-label {
+    font-size: 15px;
+  }
+
+  .uploadtool-page .file-upload-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .uploadtool-page .file-upload-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 15px;
+  }
+
+  .uploadtool-page .submit-btn {
+    padding: 13px 28px;
+    font-size: 15px;
+    width: 100%;
+  }
+
+  .uploadtool-page .upload-card::before {
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+  }
+}

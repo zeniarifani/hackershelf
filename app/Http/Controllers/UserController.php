@@ -32,6 +32,12 @@ class UserController extends Controller
     }
 
     public function register(Request $req){
+        $req->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|string|min:8'
+        ]);
+
         $user = User::create([
             'name' => $req->name,
             'email' => $req->email,
@@ -62,7 +68,6 @@ class UserController extends Controller
             'email' => 'Invalid email or password',
         ]);
 
-
     }
     public function logout()
     {
@@ -73,12 +78,48 @@ class UserController extends Controller
 
     public function profile(){
         $user = auth()->user();
-        $publishedTools = Product::where('user_id',$user->id)->where('status','approved')->get();
+        $publishedTools = Product::where('user_id',$user->id)->get();
+        $bookmarkedTools = $user->bookmarks()->with('product')->get()->pluck('product');
         $activity = Product::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
         ->where('user_id', $user->id)
         ->groupBy('month')
         ->pluck('total', 'month');
 
-       return view('user.profile', compact('user', 'publishedTools', 'activity'));
+       return view('user.profile', compact('user', 'publishedTools', 'bookmarkedTools', 'activity'));
+    }
+
+    public function deleteTool($toolId)
+    {
+        $tool = Product::find($toolId);
+        
+        if (!$tool || $tool->user_id !== auth()->id()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $tool->delete();
+        return response()->json(['success' => true]);
+    }
+
+    public function updateProfile(Request $req)
+    {
+        $user = auth()->user();
+        
+        $req->validate([
+            'name' => 'nullable|string|max:255',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($req->filled('name')) {
+            $user->name = $req->name;
+        }
+
+        if ($req->hasFile('photo')) {
+            $path = $req->file('photo')->store('photos', 'public');
+            $user->photo = $path;
+        }
+
+        $user->save();
+        
+        return redirect()->route('profile')->with('success', 'Profile updated successfully!');
     }
 }

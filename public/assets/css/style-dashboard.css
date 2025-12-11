@@ -1,0 +1,15 @@
+body{
+  min-height: 100vh;
+  width: 100%;
+  background: #f0efef;
+}
+
+.card-body .btn {
+  min-width: 100px;
+  height: 40px;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+}

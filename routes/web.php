@@ -17,10 +17,11 @@ Route::get('faq', [UserController::class, 'faq'])->name('faq');
 Route::get('about', [UserController::class, 'about'])->name('about');
 
 
+Route::get('/', [UserController::class, 'seeHome'])->name('seeHome');
 
 Route::get('/list/{category_id}/{product_id}', [ProductController::class, 'showdetail'])->name('showdetail');
 Route::get('/list/{category_id}',[ProductController::class,'showCategory'])->name('showCategory');
-Route::get('/home', [UserController::class, 'seeHome'])->name('seeHome');
+Route::get('/home', [UserController::class, 'seeHome'])->name('home');
 Route::post('/login',[UserController::class,'login'])->name('login');
 Route::get('/login',[UserController::class,'seeLogin'])->name('seeLogin');
 Route::post('/register',[UserController::class,'register'])->name('register');
@@ -31,6 +32,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/product/add', [ProductController::class, 'add'])->name('addproduct');
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::post('/product/add', [ProductController::class, 'create'])->name('create-product');
+    Route::post('/product/{product_id}/toggle-like', [ProductController::class, 'toggleLike'])->name('toggle-like');
+    Route::post('/product/{product_id}/toggle-bookmark', [ProductController::class, 'toggleBookmark'])->name('toggle-bookmark');
+    Route::delete('/tool/{toolId}', [UserController::class, 'deleteTool'])->name('delete-tool');
+    Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('update-profile');
 });
 
 

@@ -1,0 +1,382 @@
+@import url('https://cdn.vercel.app/geist/1.0.0/geist.css');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Geist', sans-serif;
+}
+
+.angular-spotlight {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        180deg,
+        #AA661C 0%,
+        #8A4E18 2%,
+        #6A3A14 5%,
+        #4A2810 10%,
+        #2A1608 20%,
+        #1A0F03 40%,
+        #000000 100%
+    );
+    pointer-events: none;
+    z-index: 0;
+}
+
+body {
+    background: linear-gradient(
+        180deg,
+        #AA661C 0%,
+        #8A4E18 2%,
+        #6A3A14 5%,
+        #4A2810 10%,
+        #2A1608 20%,
+        #1A0F03 40%,
+        #000000 100%
+    );
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* buat hero section pada profile supaya menggunakan patokan yang sama dengan About Us */
+.profile-page .hero-section {
+  padding: 100px 0 80px; /* nilai sama seperti aboutus; ubah sesuai kebutuhan */
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* judul hero untuk profile (gaya sederhana) */
+.profile-page .hero-title {
+  font-size: 48px;
+  font-weight: 400;
+  margin-bottom: 10px;
+  color: #fff;
+  background: linear-gradient(0deg, #fff, #CA6E0A);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* subtext di bawah judul (opsional) */
+.profile-page .hero-sub {
+  color: #ccc;
+  margin-bottom: 30px;
+  font-size: 18px;
+}
+
+/* pastikan profile-container tidak punya margin-top ganda */
+.profile-page .profile-container {
+  margin: 0 auto 0; /* hapus margin-top 60px agar hero padding yang mengatur spasi */
+  padding: 0 20px 60px;
+  max-width: 1200px;
+}
+
+/* agar konten di dalam .container tetap rata kiri (seperti aboutus) */
+.profile-page .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  text-align: left;
+}
+
+.profile-container {
+    max-width: 1200px;
+    margin: 60px auto 0;
+    padding: 0 20px 60px;
+    position: relative;
+    z-index: 2;
+}
+
+.profile-wrapper {
+    display: flex;
+    gap: 40px;
+    margin-top: 40px;
+}
+
+.profile-card-container {
+    width: 320px;
+    flex-shrink: 0;
+}
+
+.profile-card {
+    background: linear-gradient(171deg, #402100 20%, #AA661C);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.profile-pic-container {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 5px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 25px;
+    background-color: #2A1608;
+}
+
+/* Add a lightweight SVG fallback avatar as background so missing assets won't break layout */
+.profile-pic-container {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150' viewBox='0 0 24 24'><rect width='100%' height='100%' fill='%232A1608'/><g fill='%23CA6E0A'><circle cx='12' cy='8' r='3'/><path d='M12 13c-4 0-6 2-6 4v1h12v-1c0-2-2-4-6-4z'/></g></svg>");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.profile-pic {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* If the <img> inside fails to load, the container's SVG background will remain visible. */
+
+.profile-name {
+    font-size: 35.51px;
+    font-weight: 5;
+    margin-bottom: 15px;
+    color: white;
+}
+
+.profile-tag {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000000;
+    padding: 8px 20px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    width: 180px;
+}
+
+.tag-icon {
+    width: 12px;
+    height: 12px;
+    background-color: #CA6E0A;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.tag-text {
+    font-size: 16px;
+    color: white;
+    font-weight: 500;
+}
+
+.divider-line {
+    width: 100%;
+    height: 3px;
+    background-color: rgba(255, 255, 255, 0.89);
+    margin-bottom: 20px;
+}
+
+.update-profile-btn {
+    background: #CA6E0A;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    font-size: 16px;
+}
+
+.update-profile-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(202, 110, 10, 0.4);
+}
+
+.profile-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.section-title {
+    font-size: 47.53px;
+    font-weight: 400;
+    margin-bottom: 25px;
+    background: linear-gradient(180deg, #716C66, #DBA890, #FFE4C7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.info-card {
+    background-color: #1C1C1C;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.info-field {
+    margin-bottom: 20px;
+}
+
+.info-field:last-child {
+    margin-bottom: 0;
+}
+
+.field-label {
+    font-size: 32px;
+    background: linear-gradient(180deg, #716C66, #DBA890, #FFE4C7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 5px;
+}
+
+.field-value {
+    font-size: 18px;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 12px 15px;
+    border-radius: 8px;
+    border-left: 3px solid #CA6E0A;
+}
+
+.tools-container {
+    background-color: #1C1C1C;
+    border-radius: 12px;
+    padding: 30px;
+}
+
+.tools-row {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+
+/* On larger screens use a responsive grid to neatly wrap tool-cards */
+@media (min-width: 900px) {
+    .tools-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 40px;
+        overflow: visible;
+    }
+}
+
+.tool-card {
+    background: linear-gradient(180deg, #402100, #AA661C);
+    border-radius: 10px;
+    padding: 25px 20px;
+    min-width: 250px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.tool-card .tool-icon img {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.tool-card .see-all-link {
+    margin-top: 12px;
+    display: inline-block;
+    padding: 8px 12px;
+    background: rgba(0,0,0,0.25);
+    border-radius: 6px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+}
+.tool-card .see-all-link:hover {
+    background: rgba(202,110,10,0.25);
+}
+
+.tool-icon {
+    font-size: 30px;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.3);
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+.tool-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.tool-category {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(0, 0, 0, 0.4);
+    padding: 5px 12px;
+    border-radius: 15px;
+}
+
+.see-all-container {
+    text-align: right;
+    margin-top: 15px;
+}
+
+.see-all-link {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    background: rgba(202, 110, 10, 0.1);
+    border: 1px solid rgba(202, 110, 10, 0.3);
+}
+
+.see-all-link:hover {
+    background: rgba(202, 110, 10, 0.3);
+}
+
+@media (max-width: 900px) {
+    .profile-wrapper {
+        flex-direction: column;
+    }
+
+    .profile-card-container {
+        width: 100%;
+        max-width: 350px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 600px) {
+    .profile-container {
+        margin-top: 30px;
+        padding: 0 15px 40px;
+    }
+
+    .section-title {
+        font-size: 26px;
+    }
+}

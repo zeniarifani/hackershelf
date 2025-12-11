@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'photo',
         'role',
     ];
 
@@ -48,5 +49,15 @@ class User extends Authenticatable
     }
     public function product(){
         return $this->hasMany(Product::class);
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function bookmarks()
+    {
+        return $this->hasMany(Bookmark::class);
     }
 }

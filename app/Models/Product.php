@@ -31,4 +31,24 @@ class Product extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function bookmarks()
+    {
+        return $this->hasMany(Bookmark::class);
+    }
+
+    public function isLikedBy($user)
+    {
+        return $this->likes()->where('user_id', $user->id)->exists();
+    }
+
+    public function isBookmarkedBy($user)
+    {
+        return $this->bookmarks()->where('user_id', $user->id)->exists();
+    }
+
 }

@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Like;
+use App\Models\Bookmark;
+use App\Models\User;
+use App\Mail\ToolSubmittedNotification;
 
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class ProductController extends Controller
 {
@@ -48,7 +53,7 @@ class ProductController extends Controller
             $documentPath = $req->file('tool_document')->store('documents','public');
         }
 
-        Product::create([
+        $product = Product::create([
             'name' => $req->name,
             'version' => $req->version,
             'category_id' => $req->category_id,
@@ -60,7 +65,13 @@ class ProductController extends Controller
             'status' =>'pending'
         ]);
 
-        return back()->with('success', 'Product added successfully!'); 
+        // Send email to all admin users
+        $admins = User::where('role', 'admin')->get();
+        foreach ($admins as $admin) {
+            Mail::to($admin->email)->send(new ToolSubmittedNotification($product));
+        }
+
+        return back()->with('success', 'Tool submitted successfully! Admins will review your submission.'); 
     }
 
     public function publish($id){
@@ -153,4 +164,62 @@ class ProductController extends Controller
          return view('product.showdetail', compact('product'));
     }
 
+    public function toggleLike($product_id)
+    {
+        $user = auth()->user();
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $product = Product::findOrFail($product_id);
+        $like = Like::where('user_id', $user->id)
+                     ->where('product_id', $product_id)
+                     ->first();
+
+        if ($like) {
+            $like->delete();
+            $isLiked = false;
+        } else {
+            Like::create([
+                'user_id' => $user->id,
+                'product_id' => $product_id
+            ]);
+            $isLiked = true;
+        }
+
+        $likeCount = $product->likes()->count();
+
+        return response()->json([
+            'isLiked' => $isLiked,
+            'likeCount' => $likeCount
+        ]);
+    }
+
+    public function toggleBookmark($product_id)
+    {
+        $user = auth()->user();
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $product = Product::findOrFail($product_id);
+        $bookmark = Bookmark::where('user_id', $user->id)
+                             ->where('product_id', $product_id)
+                             ->first();
+
+        if ($bookmark) {
+            $bookmark->delete();
+            $isBookmarked = false;
+        } else {
+            Bookmark::create([
+                'user_id' => $user->id,
+                'product_id' => $product_id
+            ]);
+            $isBookmarked = true;
+        }
+
+        return response()->json([
+            'isBookmarked' => $isBookmarked
+        ]);
+    }
 }
